@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn -v)",
+      "Bash(docker --version)",
+      "Bash(pip --version)",
+      "Bash(nvidia-smi)",
+      "Bash(/d/Ghr_Science)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(wmic logicaldisk *)",
+      "Bash(git add *)"
+    ]
+  }
+}

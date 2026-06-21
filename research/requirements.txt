@@ -1,0 +1,45 @@
+# 深度学习核心
+torch>=2.2.0
+torchvision>=0.17.0
+torchaudio>=2.2.0
+torch-geometric>=2.5.0
+torch-scatter>=2.1.2
+torch-sparse>=0.6.18
+torch-cluster>=1.6.3
+
+# 数据处理
+numpy>=1.26.0
+pandas>=2.2.0
+scipy>=1.12.0
+scikit-learn>=1.4.0
+
+# 时间序列与统计
+statsmodels>=0.14.1
+prophet>=1.1.5
+arch>=6.3.0
+
+# 可视化
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.18.0
+
+# 实验管理
+jupyterlab>=4.1.0
+jupyter>=1.0.0
+tensorboard>=2.15.0
+
+# 数据处理加速
+pandarallel>=1.6.5
+tqdm>=4.66.0
+joblib>=1.3.0
+
+# 气象数据
+meteostat>=1.6.7
+
+# 代码质量
+black>=24.0.0
+isort>=5.13.0
+
+# 导出模型
+onnx>=1.15.0
+onnxruntime>=1.17.0
