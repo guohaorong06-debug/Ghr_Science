@@ -9,7 +9,17 @@
       "Bash(git init *)",
       "Bash(git config *)",
       "Bash(wmic logicaldisk *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m 'chore: initialize project structure with core configs *)",
+      "mcp__github__create_repository",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(java -version)",
+      "Bash(docker-compose up *)",
+      "Bash(./mvnw clean *)",
+      "Bash(chmod +x mvnw)",
+      "Bash(mvn clean *)"
     ]
   }
 }
