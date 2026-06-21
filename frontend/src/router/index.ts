@@ -27,6 +27,16 @@ const router = createRouter({
           name: 'Dashboard',
           component: () => import('@/views/Dashboard.vue'),
         },
+        {
+          path: 'site',
+          name: 'SiteManage',
+          component: () => import('@/views/SiteManage.vue'),
+        },
+        {
+          path: 'data-import',
+          name: 'DataImport',
+          component: () => import('@/views/DataImport.vue'),
+        },
       ],
     },
   ],

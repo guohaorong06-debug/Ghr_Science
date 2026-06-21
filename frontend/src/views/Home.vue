@@ -15,6 +15,12 @@
           <el-menu-item index="/dashboard">
             <span>决策仪表盘</span>
           </el-menu-item>
+          <el-menu-item index="/site">
+            <span>网点管理</span>
+          </el-menu-item>
+          <el-menu-item index="/data-import">
+            <span>数据导入</span>
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>

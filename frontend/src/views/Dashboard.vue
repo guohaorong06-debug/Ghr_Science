@@ -28,12 +28,13 @@
       </el-col>
     </el-row>
     <el-card style="margin-top: 20px;">
-      <template #header>功能模块（开发中）</template>
+      <template #header>功能模块进度</template>
       <p>✅ 用户认证 - 已完成</p>
-      <p>⏳ 网点管理 - 待开发</p>
-      <p>⏳ 数据导入 - 待开发</p>
-      <p>⏳ 预测服务 - 待开发</p>
-      <p>⏳ 预警决策 - 待开发</p>
+      <p>✅ 网点管理 - 已完成</p>
+      <p>✅ 数据导入 - 已完成</p>
+      <p>⏳ 预测服务 - 待开发（阶段3）</p>
+      <p>⏳ 预警决策 - 待开发（阶段3）</p>
+      <p>⏳ 模型管理 - 待开发（阶段4）</p>
     </el-card>
   </div>
 </template>
