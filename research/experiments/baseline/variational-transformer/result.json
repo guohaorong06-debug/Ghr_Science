@@ -1,0 +1,13 @@
+{
+  "model": "Variational-Transformer",
+  "timestamp": "2026-06-22T18:03:46.642811",
+  "metrics": {
+    "MAE": 55.85,
+    "RMSE": 87.39,
+    "CRPS": 69.27,
+    "PICP_90": 0.903,
+    "MPIW_90": 173.29
+  },
+  "training_time_seconds": 188.17,
+  "parameters_count": 683506
+}

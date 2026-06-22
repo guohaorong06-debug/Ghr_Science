@@ -1,0 +1,13 @@
+{
+  "model": "TFT",
+  "timestamp": "2026-06-22T18:03:50.660013",
+  "metrics": {
+    "MAE": 62.87,
+    "RMSE": 116.35,
+    "CRPS": 47.19,
+    "PICP_90": 0.939,
+    "MPIW_90": 109.53
+  },
+  "training_time_seconds": 331.65,
+  "parameters_count": 3824556
+}

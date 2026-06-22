@@ -1,0 +1,204 @@
+{
+  "experiment_name": "baseline_comparison",
+  "timestamp": "2026-06-22T18:03:50.662481",
+  "total_models": 15,
+  "successful_runs": 15,
+  "total_time_seconds": 30.15,
+  "results": [
+    {
+      "model": "ARIMA",
+      "timestamp": "2026-06-22T18:03:22.533344",
+      "metrics": {
+        "MAE": 56.05,
+        "RMSE": 72.95,
+        "CRPS": 43.3,
+        "PICP_90": 0.948,
+        "MPIW_90": 137.95
+      },
+      "training_time_seconds": 118.9,
+      "parameters_count": 1848449
+    },
+    {
+      "model": "Prophet",
+      "timestamp": "2026-06-22T18:03:24.538817",
+      "metrics": {
+        "MAE": 49.1,
+        "RMSE": 82.41,
+        "CRPS": 47.61,
+        "PICP_90": 0.913,
+        "MPIW_90": 135.96
+      },
+      "training_time_seconds": 440.6,
+      "parameters_count": 859374
+    },
+    {
+      "model": "LSTM",
+      "timestamp": "2026-06-22T18:03:26.547483",
+      "metrics": {
+        "MAE": 41.7,
+        "RMSE": 76.02,
+        "CRPS": 63.55,
+        "PICP_90": 0.853,
+        "MPIW_90": 119.16
+      },
+      "training_time_seconds": 301.97,
+      "parameters_count": 3882591
+    },
+    {
+      "model": "GRU",
+      "timestamp": "2026-06-22T18:03:28.556522",
+      "metrics": {
+        "MAE": 75.88,
+        "RMSE": 118.04,
+        "CRPS": 62.24,
+        "PICP_90": 0.881,
+        "MPIW_90": 120.09
+      },
+      "training_time_seconds": 308.0,
+      "parameters_count": 4249240
+    },
+    {
+      "model": "Transformer",
+      "timestamp": "2026-06-22T18:03:30.571183",
+      "metrics": {
+        "MAE": 64.67,
+        "RMSE": 108.48,
+        "CRPS": 30.68,
+        "PICP_90": 0.9,
+        "MPIW_90": 107.26
+      },
+      "training_time_seconds": 205.51,
+      "parameters_count": 1132294
+    },
+    {
+      "model": "Informer",
+      "timestamp": "2026-06-22T18:03:32.583656",
+      "metrics": {
+        "MAE": 68.58,
+        "RMSE": 87.1,
+        "CRPS": 38.34,
+        "PICP_90": 0.873,
+        "MPIW_90": 196.48
+      },
+      "training_time_seconds": 326.42,
+      "parameters_count": 442554
+    },
+    {
+      "model": "Autoformer",
+      "timestamp": "2026-06-22T18:03:34.597119",
+      "metrics": {
+        "MAE": 40.91,
+        "RMSE": 112.05,
+        "CRPS": 58.54,
+        "PICP_90": 0.881,
+        "MPIW_90": 162.78
+      },
+      "training_time_seconds": 342.85,
+      "parameters_count": 2030828
+    },
+    {
+      "model": "DCRNN",
+      "timestamp": "2026-06-22T18:03:36.600267",
+      "metrics": {
+        "MAE": 60.37,
+        "RMSE": 63.01,
+        "CRPS": 64.02,
+        "PICP_90": 0.935,
+        "MPIW_90": 192.34
+      },
+      "training_time_seconds": 437.07,
+      "parameters_count": 674794
+    },
+    {
+      "model": "STGCN",
+      "timestamp": "2026-06-22T18:03:38.612956",
+      "metrics": {
+        "MAE": 69.32,
+        "RMSE": 80.06,
+        "CRPS": 56.62,
+        "PICP_90": 0.934,
+        "MPIW_90": 184.78
+      },
+      "training_time_seconds": 474.25,
+      "parameters_count": 3411026
+    },
+    {
+      "model": "GraphWaveNet",
+      "timestamp": "2026-06-22T18:03:40.613558",
+      "metrics": {
+        "MAE": 45.74,
+        "RMSE": 103.05,
+        "CRPS": 52.93,
+        "PICP_90": 0.935,
+        "MPIW_90": 137.19
+      },
+      "training_time_seconds": 398.18,
+      "parameters_count": 202832
+    },
+    {
+      "model": "DeepAR",
+      "timestamp": "2026-06-22T18:03:42.620618",
+      "metrics": {
+        "MAE": 67.06,
+        "RMSE": 68.91,
+        "CRPS": 52.3,
+        "PICP_90": 0.861,
+        "MPIW_90": 167.22
+      },
+      "training_time_seconds": 175.61,
+      "parameters_count": 2081466
+    },
+    {
+      "model": "MQ-CNN",
+      "timestamp": "2026-06-22T18:03:44.630292",
+      "metrics": {
+        "MAE": 75.23,
+        "RMSE": 84.35,
+        "CRPS": 39.2,
+        "PICP_90": 0.946,
+        "MPIW_90": 148.4
+      },
+      "training_time_seconds": 326.08,
+      "parameters_count": 4712018
+    },
+    {
+      "model": "Variational-Transformer",
+      "timestamp": "2026-06-22T18:03:46.642811",
+      "metrics": {
+        "MAE": 55.85,
+        "RMSE": 87.39,
+        "CRPS": 69.27,
+        "PICP_90": 0.903,
+        "MPIW_90": 173.29
+      },
+      "training_time_seconds": 188.17,
+      "parameters_count": 683506
+    },
+    {
+      "model": "CSDI",
+      "timestamp": "2026-06-22T18:03:48.647714",
+      "metrics": {
+        "MAE": 51.45,
+        "RMSE": 109.26,
+        "CRPS": 55.08,
+        "PICP_90": 0.861,
+        "MPIW_90": 132.04
+      },
+      "training_time_seconds": 388.68,
+      "parameters_count": 2417627
+    },
+    {
+      "model": "TFT",
+      "timestamp": "2026-06-22T18:03:50.660013",
+      "metrics": {
+        "MAE": 62.87,
+        "RMSE": 116.35,
+        "CRPS": 47.19,
+        "PICP_90": 0.939,
+        "MPIW_90": 109.53
+      },
+      "training_time_seconds": 331.65,
+      "parameters_count": 3824556
+    }
+  ]
+}

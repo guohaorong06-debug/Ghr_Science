@@ -1,0 +1,13 @@
+{
+  "model": "DCRNN",
+  "timestamp": "2026-06-22T18:03:36.600267",
+  "metrics": {
+    "MAE": 60.37,
+    "RMSE": 63.01,
+    "CRPS": 64.02,
+    "PICP_90": 0.935,
+    "MPIW_90": 192.34
+  },
+  "training_time_seconds": 437.07,
+  "parameters_count": 674794
+}

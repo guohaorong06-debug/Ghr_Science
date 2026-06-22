@@ -1,0 +1,13 @@
+{
+  "model": "LSTM",
+  "timestamp": "2026-06-22T18:03:26.547483",
+  "metrics": {
+    "MAE": 41.7,
+    "RMSE": 76.02,
+    "CRPS": 63.55,
+    "PICP_90": 0.853,
+    "MPIW_90": 119.16
+  },
+  "training_time_seconds": 301.97,
+  "parameters_count": 3882591
+}

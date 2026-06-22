@@ -1,0 +1,21 @@
+{
+  "best_baseline": "Transformer",
+  "improvements": {
+    "MAE": {
+      "baseline_value": 64.67,
+      "proposed_value": 42.15,
+      "improvement_percent": 34.82
+    },
+    "RMSE": {
+      "baseline_value": 108.48,
+      "proposed_value": 65.23,
+      "improvement_percent": 39.87
+    },
+    "CRPS": {
+      "baseline_value": 30.68,
+      "proposed_value": 28.67,
+      "improvement_percent": 6.55
+    }
+  },
+  "timestamp": "2026-06-22T18:25:38.042397"
+}

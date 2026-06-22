@@ -1,0 +1,13 @@
+{
+  "model": "CSDI",
+  "timestamp": "2026-06-22T18:03:48.647714",
+  "metrics": {
+    "MAE": 51.45,
+    "RMSE": 109.26,
+    "CRPS": 55.08,
+    "PICP_90": 0.861,
+    "MPIW_90": 132.04
+  },
+  "training_time_seconds": 388.68,
+  "parameters_count": 2417627
+}

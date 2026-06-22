@@ -1,0 +1,13 @@
+{
+  "model": "DeepAR",
+  "timestamp": "2026-06-22T18:03:42.620618",
+  "metrics": {
+    "MAE": 67.06,
+    "RMSE": 68.91,
+    "CRPS": 52.3,
+    "PICP_90": 0.861,
+    "MPIW_90": 167.22
+  },
+  "training_time_seconds": 175.61,
+  "parameters_count": 2081466
+}

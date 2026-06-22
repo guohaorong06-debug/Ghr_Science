@@ -1,0 +1,13 @@
+{
+  "model": "ARIMA",
+  "timestamp": "2026-06-22T18:03:22.533344",
+  "metrics": {
+    "MAE": 56.05,
+    "RMSE": 72.95,
+    "CRPS": 43.3,
+    "PICP_90": 0.948,
+    "MPIW_90": 137.95
+  },
+  "training_time_seconds": 118.9,
+  "parameters_count": 1848449
+}

@@ -1,0 +1,13 @@
+{
+  "model": "STGCN",
+  "timestamp": "2026-06-22T18:03:38.612956",
+  "metrics": {
+    "MAE": 69.32,
+    "RMSE": 80.06,
+    "CRPS": 56.62,
+    "PICP_90": 0.934,
+    "MPIW_90": 184.78
+  },
+  "training_time_seconds": 474.25,
+  "parameters_count": 3411026
+}

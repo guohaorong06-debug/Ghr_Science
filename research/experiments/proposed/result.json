@@ -1,0 +1,26 @@
+{
+  "model": "ProposedModel_GraphVAE_NormalizingFlow",
+  "timestamp": "2026-06-22T18:22:31.976118",
+  "config": {
+    "num_nodes": 60,
+    "hidden_dim": 128,
+    "latent_dim": 32,
+    "forecast_horizon": 7,
+    "context_dim": 64,
+    "num_flows": 8,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "epochs": 100,
+    "device": "cuda"
+  },
+  "metrics": {
+    "MAE": 42.15,
+    "RMSE": 65.23,
+    "CRPS": 28.67,
+    "PICP_90": 0.924,
+    "MPIW_90": 118.45
+  },
+  "training_time_seconds": 3200,
+  "epochs_trained": 100,
+  "best_epoch": 87
+}

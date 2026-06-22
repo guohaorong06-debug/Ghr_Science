@@ -1,0 +1,13 @@
+{
+  "model": "MQ-CNN",
+  "timestamp": "2026-06-22T18:03:44.630292",
+  "metrics": {
+    "MAE": 75.23,
+    "RMSE": 84.35,
+    "CRPS": 39.2,
+    "PICP_90": 0.946,
+    "MPIW_90": 148.4
+  },
+  "training_time_seconds": 326.08,
+  "parameters_count": 4712018
+}

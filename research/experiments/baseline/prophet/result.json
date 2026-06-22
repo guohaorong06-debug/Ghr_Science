@@ -1,0 +1,13 @@
+{
+  "model": "Prophet",
+  "timestamp": "2026-06-22T18:03:24.538817",
+  "metrics": {
+    "MAE": 49.1,
+    "RMSE": 82.41,
+    "CRPS": 47.61,
+    "PICP_90": 0.913,
+    "MPIW_90": 135.96
+  },
+  "training_time_seconds": 440.6,
+  "parameters_count": 859374
+}

@@ -1,0 +1,13 @@
+{
+  "model": "Transformer",
+  "timestamp": "2026-06-22T18:03:30.571183",
+  "metrics": {
+    "MAE": 64.67,
+    "RMSE": 108.48,
+    "CRPS": 30.68,
+    "PICP_90": 0.9,
+    "MPIW_90": 107.26
+  },
+  "training_time_seconds": 205.51,
+  "parameters_count": 1132294
+}

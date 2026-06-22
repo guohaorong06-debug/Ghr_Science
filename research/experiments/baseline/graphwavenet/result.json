@@ -1,0 +1,13 @@
+{
+  "model": "GraphWaveNet",
+  "timestamp": "2026-06-22T18:03:40.613558",
+  "metrics": {
+    "MAE": 45.74,
+    "RMSE": 103.05,
+    "CRPS": 52.93,
+    "PICP_90": 0.935,
+    "MPIW_90": 137.19
+  },
+  "training_time_seconds": 398.18,
+  "parameters_count": 202832
+}

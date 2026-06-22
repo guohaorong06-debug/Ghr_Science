@@ -1,0 +1,13 @@
+{
+  "model": "Autoformer",
+  "timestamp": "2026-06-22T18:03:34.597119",
+  "metrics": {
+    "MAE": 40.91,
+    "RMSE": 112.05,
+    "CRPS": 58.54,
+    "PICP_90": 0.881,
+    "MPIW_90": 162.78
+  },
+  "training_time_seconds": 342.85,
+  "parameters_count": 2030828
+}
