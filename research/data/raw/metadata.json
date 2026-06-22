@@ -1,0 +1,12 @@
+{
+  "source": "NYC TLC Trip Record Data",
+  "url": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "file_count": 48,
+  "data_dir": "D:\\Ghr_Science\\research\\scripts\\..\\data\\raw"
+}
