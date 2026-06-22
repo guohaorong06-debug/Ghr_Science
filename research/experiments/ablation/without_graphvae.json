@@ -1,0 +1,8 @@
+{
+  "model": "Proposed_without_GraphVAE",
+  "timestamp": "2026-06-22T21:28:39.530221",
+  "metrics": {
+    "MAE": 0.05750155448913574,
+    "RMSE": 0.06802671402692795
+  }
+}

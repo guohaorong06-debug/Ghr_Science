@@ -1,13 +1,14 @@
 {
   "model": "ARIMA",
-  "timestamp": "2026-06-22T18:03:22.533344",
+  "timestamp": "2026-06-22T21:23:42.710621",
   "metrics": {
-    "MAE": 56.05,
-    "RMSE": 72.95,
-    "CRPS": 43.3,
-    "PICP_90": 0.948,
-    "MPIW_90": 137.95
+    "MAE": 21.799632807061553,
+    "RMSE": 113.65598764642208,
+    "CRPS": 17.439706245649244
   },
-  "training_time_seconds": 118.9,
-  "parameters_count": 1848449
+  "config": {
+    "order": "(1,1,1)",
+    "num_grids": 60,
+    "method": "rolling_forecast"
+  }
 }
