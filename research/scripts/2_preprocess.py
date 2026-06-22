@@ -157,9 +157,15 @@ def main():
         print("❌ 没有成功处理任何文件，请检查数据格式或映射表。")
         return
 
-    # 合并所有数据
+    # ---------- 合并数据（修复：统一日期类型并去重） ----------
     print("\n合并数据...")
     final_df = pd.concat(all_demands, ignore_index=True)
+
+    # 统一日期列为 Timestamp（去除时区，便于与 date_range 对齐）
+    final_df['date'] = pd.to_datetime(final_df['date'])
+
+    # 若仍有重复（理论上不应有，但以防万一），按 (date, grid_id) 聚合求和
+    final_df = final_df.groupby(['date', 'grid_id'], as_index=False)['volume'].sum()
 
     # 填充缺失日期（某些网格某天可能无数据）
     print("填充缺失日期...")
@@ -169,7 +175,7 @@ def main():
     full_index = pd.MultiIndex.from_product([date_range, grid_ids], names=['date', 'grid_id'])
     final_df = final_df.set_index(['date', 'grid_id']).reindex(full_index, fill_value=0).reset_index()
 
-    # 保存
+    # ---------- 保存结果 ----------
     output_path = PROCESSED_DIR / "demand_grid.csv"
     final_df.to_csv(output_path, index=False)
     print(f"\n✅ 保存成功: {output_path}")
