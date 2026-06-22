@@ -1,0 +1,34 @@
+{
+  "project": "智能物流需求概率预测与决策系统",
+  "purpose": "科研论文实验数据存储",
+  "target_journal": "Applied Soft Computing (IF 8.7, 中科院二区)",
+  "experiments": {
+    "baseline": {
+      "models": 15,
+      "description": "15+基线模型对比实验",
+      "location": "experiments/baseline/"
+    },
+    "proposed": {
+      "model": "GraphVAE + NormalizingFlow",
+      "description": "创新模型实验",
+      "location": "experiments/proposed/"
+    },
+    "ablation": {
+      "description": "消融实验（验证各模块贡献）",
+      "location": "experiments/ablation/"
+    }
+  },
+  "data": {
+    "source": "NYC TLC Trip Record Data",
+    "url": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
+    "years": [2019, 2020, 2021, 2022],
+    "grid_size": "6x10 = 60 grids",
+    "location": "data/"
+  },
+  "outputs": {
+    "figures": "outputs/figures/",
+    "tables": "outputs/tables/",
+    "models": "models/final/"
+  },
+  "notes": "所有实验结果以JSON格式保存，便于Claude直接读取用于论文写作"
+}
