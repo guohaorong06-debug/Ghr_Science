@@ -1,173 +1,137 @@
 package com.logistics.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.logistics.entity.AlertRecord;
-import com.logistics.entity.ForecastResult;
-import com.logistics.entity.LogisticsSite;
-import com.logistics.mapper.AlertRecordMapper;
-import com.logistics.mapper.ForecastResultMapper;
-import com.logistics.mapper.LogisticsSiteMapper;
+import ai.djl.inference.Predictor;
+import com.logistics.entity.Site;
+import com.logistics.mapper.SiteMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
- * 预测服务（阶段3：占位实现，随机数模拟）
+ * 预测服务
+ *
+ * 使用TorchScript模型进行需求预测
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ForecastService {
 
-    private final ForecastResultMapper forecastMapper;
-    private final AlertRecordMapper alertMapper;
-    private final LogisticsSiteMapper siteMapper;
+    private final ModelLoaderService modelLoaderService;
+    private final SiteMapper siteMapper;
 
     /**
-     * 执行预测（占位实现：生成随机预测值）
-     * TODO: 阶段6替换为真实DJL模型推理
+     * 预测未来7天需求
+     *
+     * @param historyData 历史14天数据 [14, 60]
+     * @param modelType 模型类型: lstm/gru/transformer
+     * @return 预测7天数据 [7, 60]
      */
-    @Transactional(rollbackFor = Exception.class)
-    public List<ForecastResult> predict(Long siteId, LocalDate startDate, Map<String, Object> conditions) {
-        LogisticsSite site = siteMapper.selectById(siteId);
-        if (site == null) {
-            throw new RuntimeException("网点不存在");
-        }
+    public float[][] predict(float[][] historyData, String modelType) {
+        try {
+            log.info("开始预测，模型类型: {}", modelType);
 
-        String modelVersion = "v1.0.0-placeholder";
-        List<ForecastResult> results = new ArrayList<>();
+            // 验证输入
+            if (historyData == null || historyData.length != 14 || historyData[0].length != 60) {
+                throw new IllegalArgumentException("输入数据格式错误，需要 [14, 60]");
+            }
+
+            // 选择模型
+            Predictor<float[][], float[][]> predictor = getPredictor(modelType);
+
+            // 执行预测
+            long startTime = System.currentTimeMillis();
+            float[][] forecast = predictor.predict(historyData);
+            long elapsed = System.currentTimeMillis() - startTime;
+
+            log.info("预测完成，耗时: {}ms, 输出形状: [{}, {}]",
+                     elapsed, forecast.length, forecast[0].length);
+
+            return forecast;
+
+        } catch (Exception e) {
+            log.error("预测失败", e);
+            throw new RuntimeException("预测失败: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 智能预测（自动选择最佳模型）
+     *
+     * 默认使用GRU模型（速度和精度平衡）
+     */
+    public float[][] predictSmart(float[][] historyData) {
+        return predict(historyData, "gru");
+    }
+
+    /**
+     * 批量预测所有网点
+     *
+     * @param startDate 预测起始日期
+     * @return 预测结果Map<网点ID, 7天预测值>
+     */
+    public Map<Long, List<Float>> predictAllSites(LocalDate startDate) {
+        try {
+            // 1. 获取所有网点
+            List<Site> sites = siteMapper.selectList(null);
+
+            // 2. 构建历史数据 [14, 60]
+            float[][] historyData = buildHistoryData(sites, startDate);
+
+            // 3. 执行预测
+            float[][] forecast = predictSmart(historyData);
+
+            // 4. 转换结果
+            Map<Long, List<Float>> result = new HashMap<>();
+            for (int i = 0; i < Math.min(sites.size(), 60); i++) {
+                Site site = sites.get(i);
+                List<Float> predictions = new ArrayList<>();
+                for (int day = 0; day < 7; day++) {
+                    predictions.add(forecast[day][i]);
+                }
+                result.put(site.getId(), predictions);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            log.error("批量预测失败", e);
+            throw new RuntimeException("批量预测失败: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 获取预测器
+     */
+    private Predictor<float[][], float[][]> getPredictor(String modelType) {
+        return switch (modelType.toLowerCase()) {
+            case "lstm" -> modelLoaderService.getLSTMPredictor();
+            case "gru" -> modelLoaderService.getGRUPredictor();
+            case "transformer" -> modelLoaderService.getTransformerPredictor();
+            default -> throw new IllegalArgumentException("未知模型类型: " + modelType);
+        };
+    }
+
+    /**
+     * 构建历史数据
+     *
+     * TODO: 从数据库读取真实历史数据
+     * 当前返回模拟数据
+     */
+    private float[][] buildHistoryData(List<Site> sites, LocalDate startDate) {
+        float[][] data = new float[14][60];
+
+        // 模拟历史数据
         Random random = new Random();
-
-        // 模拟预测未来7天
-        for (int i = 0; i < 7; i++) {
-            LocalDate forecastDate = startDate.plusDays(i);
-
-            // 随机生成预测值（基于网点处理能力波动）
-            int baseVolume = site.getCapacity();
-            int median = baseVolume + random.nextInt(200) - 100;
-            int p10 = median - 50 - random.nextInt(50);
-            int p90 = median + 50 + random.nextInt(50);
-
-            ForecastResult forecast = new ForecastResult();
-            forecast.setSiteId(siteId);
-            forecast.setForecastDate(forecastDate);
-            forecast.setModelVersion(modelVersion);
-            forecast.setMedian(median);
-            forecast.setP10(p10);
-            forecast.setP90(p90);
-            forecast.setConditionJson(conditions != null ? conditions.toString() : null);
-
-            // 删除旧预测结果
-            forecastMapper.delete(new LambdaQueryWrapper<ForecastResult>()
-                    .eq(ForecastResult::getSiteId, siteId)
-                    .eq(ForecastResult::getForecastDate, forecastDate)
-                    .eq(ForecastResult::getModelVersion, modelVersion));
-
-            forecastMapper.insert(forecast);
-            results.add(forecast);
-
-            // 生成预警
-            generateAlert(forecast, site);
+        for (int day = 0; day < 14; day++) {
+            for (int site = 0; site < Math.min(sites.size(), 60); site++) {
+                data[day][site] = random.nextFloat() * 100;
+            }
         }
 
-        log.info("网点{}预测完成，生成{}条结果", siteId, results.size());
-        return results;
-    }
-
-    /**
-     * 生成预警
-     */
-    private void generateAlert(ForecastResult forecast, LogisticsSite site) {
-        int predicted = forecast.getP90(); // 用90%分位数评估风险
-        int capacity = site.getCapacity();
-
-        if (predicted <= capacity) {
-            return; // 无需预警
-        }
-
-        // 计算超出比例
-        BigDecimal ratio = BigDecimal.valueOf(predicted - capacity)
-                .divide(BigDecimal.valueOf(capacity), 4, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100));
-
-        // 判断预警级别
-        String level;
-        if (ratio.compareTo(BigDecimal.valueOf(30)) > 0) {
-            level = "RED";
-        } else if (ratio.compareTo(BigDecimal.valueOf(10)) > 0) {
-            level = "YELLOW";
-        } else {
-            level = "GREEN";
-        }
-
-        // 计算建议额外运力
-        int extraCapacity = predicted - capacity;
-
-        AlertRecord alert = new AlertRecord();
-        alert.setSiteId(forecast.getSiteId());
-        alert.setForecastId(forecast.getId());
-        alert.setAlertDate(forecast.getForecastDate());
-        alert.setAlertLevel(level);
-        alert.setOverflowRatio(ratio);
-        alert.setExtraCapacity(extraCapacity);
-        alert.setIsRead(false);
-
-        alertMapper.insert(alert);
-    }
-
-    /**
-     * 查询预测结果
-     */
-    public List<ForecastResult> getResults(Long siteId, LocalDate startDate, LocalDate endDate) {
-        LambdaQueryWrapper<ForecastResult> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ForecastResult::getSiteId, siteId);
-        if (startDate != null) wrapper.ge(ForecastResult::getForecastDate, startDate);
-        if (endDate != null) wrapper.le(ForecastResult::getForecastDate, endDate);
-        wrapper.orderByAsc(ForecastResult::getForecastDate);
-        return forecastMapper.selectList(wrapper);
-    }
-
-    /**
-     * 查询预警列表
-     */
-    public List<Map<String, Object>> getAlerts(Long siteId, String level, Boolean isRead) {
-        LambdaQueryWrapper<AlertRecord> wrapper = new LambdaQueryWrapper<>();
-        if (siteId != null) wrapper.eq(AlertRecord::getSiteId, siteId);
-        if (level != null) wrapper.eq(AlertRecord::getAlertLevel, level);
-        if (isRead != null) wrapper.eq(AlertRecord::getIsRead, isRead);
-        wrapper.orderByDesc(AlertRecord::getAlertDate);
-
-        List<AlertRecord> alerts = alertMapper.selectList(wrapper);
-        List<Map<String, Object>> result = new ArrayList<>();
-
-        for (AlertRecord alert : alerts) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("alert", alert);
-
-            // 关联网点信息
-            LogisticsSite site = siteMapper.selectById(alert.getSiteId());
-            map.put("siteName", site != null ? site.getName() : "未知");
-
-            result.add(map);
-        }
-
-        return result;
-    }
-
-    /**
-     * 标记预警已读
-     */
-    public void markAlertRead(Long alertId) {
-        AlertRecord alert = alertMapper.selectById(alertId);
-        if (alert != null) {
-            alert.setIsRead(true);
-            alertMapper.updateById(alert);
-        }
+        return data;
     }
 }
