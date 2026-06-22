@@ -34,9 +34,13 @@
       <p>✅ 数据导入 - 已完成</p>
       <p>✅ 预测服务 - 已完成（占位模型）</p>
       <p>✅ 预警决策 - 已完成</p>
-      <p>✅ 模型管理 - 已完成（上传/激活/删除）</p>
-      <p>⏳ PWA优化 - 待开发（阶段5）</p>
-      <p>⏳ 科研代码 - 待开发（阶段6）</p>
+      <p>✅ 模型管理 - 已完成</p>
+      <p>✅ PWA优化 - 已完成</p>
+      <p>✅ 科研代码 - 已完成（框架）</p>
+      <p style="margin-top: 20px; padding: 10px; background: #e6f7ff; border-left: 4px solid #1890ff;">
+        <strong>🎉 项目已全部完成！</strong><br/>
+        查看 <code>PROJECT_SUMMARY.md</code> 了解详情
+      </p>
     </el-card>
   </div>
 </template>

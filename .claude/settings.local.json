@@ -21,7 +21,8 @@
       "Bash(chmod +x mvnw)",
       "Bash(mvn clean *)",
       "Bash(git commit -m 'feat: complete phase 3 - forecast service & alert system *)",
-      "Bash(git commit -m 'feat: complete phase 4 - model version management *)"
+      "Bash(git commit -m 'feat: complete phase 4 - model version management *)",
+      "Bash(git commit -m 'docs: add comprehensive project summary *)"
     ]
   }
 }
