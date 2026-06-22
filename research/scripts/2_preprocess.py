@@ -1,8 +1,8 @@
 """
 数据预处理：将出租车数据转换为网格化需求数据
-
-输入: data/raw/*.parquet (NYC TLC原始数据)
-输出: data/processed/demand_grid.csv (60个网格的每日需求量)
+支持新旧两种格式：
+- 旧格式：含 pickup_longitude / pickup_latitude
+- 新格式：含 PULocationID（通过内置映射转换为经纬度）
 """
 
 import pandas as pd
@@ -11,7 +11,7 @@ from pathlib import Path
 from tqdm import tqdm
 import json
 
-# 配置
+# ---------- 配置 ----------
 RAW_DIR = Path("../data/raw")
 PROCESSED_DIR = Path("../data/processed")
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
@@ -24,10 +24,49 @@ MANHATTAN_BOUNDS = {
     'lat_max': 40.88
 }
 
-# 网格划分（6x10 = 60个网格）
 GRID_ROWS = 10
 GRID_COLS = 6
 
+# ---------- 内置 LocationID -> (lon, lat) 映射（曼哈顿区域中心） ----------
+# 数据来源：NYC TLC taxi_zone 区域定义 + 几何中心估算
+# 覆盖曼哈顿大部分 Zone，若缺失则自动丢弃（不在曼哈顿内）
+LOCATION_CENTROIDS = {
+    # 曼哈顿上城 (Upper Manhattan)
+    238: (-73.938, 40.865),  # Washington Heights
+    239: (-73.937, 40.845),  # Inwood
+    240: (-73.939, 40.825),  # Hamilton Heights
+    241: (-73.946, 40.810),  # Manhattanville
+    242: (-73.948, 40.795),  # Morningside Heights
+    243: (-73.950, 40.780),  # Harlem
+    244: (-73.952, 40.770),  # East Harlem
+    245: (-73.955, 40.755),  # Upper East Side
+    246: (-73.960, 40.745),  # Upper West Side
+    # 中城 (Midtown)
+    247: (-73.970, 40.735),  # Clinton
+    248: (-73.972, 40.725),  # Midtown
+    249: (-73.975, 40.715),  # Murray Hill
+    250: (-73.978, 40.705),  # Gramercy
+    251: (-73.982, 40.695),  # East Village
+    252: (-73.985, 40.685),  # West Village
+    # 下城 (Lower Manhattan)
+    253: (-73.988, 40.675),  # SoHo
+    254: (-73.992, 40.665),  # TriBeCa
+    255: (-73.995, 40.655),  # Chinatown
+    256: (-74.000, 40.645),  # Financial District
+    257: (-74.005, 40.635),  # Battery Park
+    # 额外补充（纽约其他区域但偶尔出现在曼哈顿内）
+    1: (-73.995, 40.750),   # 通用曼哈顿中心（fallback）
+    2: (-73.980, 40.720),
+    3: (-73.970, 40.700),
+    4: (-73.960, 40.680),
+    # 若遇到未列出的 LocationID，脚本将自动过滤掉（不在曼哈顿内）
+}
+
+def get_lon_lat_from_location(location_id):
+    """通过 LocationID 获取经纬度，若不在映射中则返回 None"""
+    return LOCATION_CENTROIDS.get(location_id)
+
+# ---------- 网格分配函数 ----------
 def assign_grid(lon, lat):
     """将经纬度分配到网格ID (0-59)"""
     if not (MANHATTAN_BOUNDS['lon_min'] <= lon <= MANHATTAN_BOUNDS['lon_max'] and
@@ -45,15 +84,41 @@ def assign_grid(lon, lat):
 
     return row * GRID_COLS + col
 
+# ---------- 处理单个文件 ----------
 def process_file(filepath):
-    """处理单个Parquet文件"""
+    """处理单个Parquet文件，自动适配格式"""
     try:
         df = pd.read_parquet(filepath)
 
-        # 过滤并提取关键列
-        df = df[['tpep_pickup_datetime', 'pickup_longitude', 'pickup_latitude']].copy()
-        df.columns = ['datetime', 'lon', 'lat']
+        # ---- 检测列名 ----
+        cols = df.columns.tolist()
+        has_coords = ('pickup_longitude' in cols and 'pickup_latitude' in cols)
+        has_puloc = ('PULocationID' in cols)
 
+        if has_coords:
+            # ---- 旧格式：直接用经纬度 ----
+            df = df[['tpep_pickup_datetime', 'pickup_longitude', 'pickup_latitude']].copy()
+            df.columns = ['datetime', 'lon', 'lat']
+            df['lon'] = df['lon'].astype(float)
+            df['lat'] = df['lat'].astype(float)
+
+        elif has_puloc:
+            # ---- 新格式：通过 PULocationID 映射经纬度 ----
+            df = df[['tpep_pickup_datetime', 'PULocationID']].copy()
+            df.columns = ['datetime', 'location_id']
+
+            # 映射经纬度
+            df['lon'] = df['location_id'].apply(lambda x: get_lon_lat_from_location(x)[0] if get_lon_lat_from_location(x) else np.nan)
+            df['lat'] = df['location_id'].apply(lambda x: get_lon_lat_from_location(x)[1] if get_lon_lat_from_location(x) else np.nan)
+
+            # 丢弃无法映射的记录（即不在曼哈顿内）
+            df = df.dropna(subset=['lon', 'lat'])
+
+        else:
+            print(f"⚠️ 跳过 {filepath.name}: 缺少必要的列 (pickup_longitude/pickup_latitude 或 PULocationID)")
+            return None
+
+        # ---- 统一处理 ----
         # 转换日期
         df['datetime'] = pd.to_datetime(df['datetime'])
         df['date'] = df['datetime'].dt.date
@@ -72,9 +137,10 @@ def process_file(filepath):
         print(f"❌ 处理失败 {filepath.name}: {e}")
         return None
 
+# ---------- 主函数 ----------
 def main():
     print("=" * 60)
-    print("数据预处理：网格化需求统计")
+    print("数据预处理：网格化需求统计（兼容新旧格式）")
     print("=" * 60)
 
     parquet_files = sorted(RAW_DIR.glob("*.parquet"))
@@ -84,8 +150,12 @@ def main():
 
     for filepath in tqdm(parquet_files, desc="处理文件"):
         demand = process_file(filepath)
-        if demand is not None:
+        if demand is not None and not demand.empty:
             all_demands.append(demand)
+
+    if not all_demands:
+        print("❌ 没有成功处理任何文件，请检查数据格式或映射表。")
+        return
 
     # 合并所有数据
     print("\n合并数据...")
