@@ -1,0 +1,23 @@
+{
+  "test_suite": "智能物流决策系统自动化测试",
+  "test_date": "2026-06-22",
+  "base_url": "http://localhost",
+  "api_base_url": "http://localhost:8080/api",
+  "test_user": {
+    "username": "autotest_user",
+    "password": "Test123456",
+    "real_name": "自动化测试用户"
+  },
+  "test_site": {
+    "name": "测试网点001",
+    "longitude": -73.98,
+    "latitude": 40.75,
+    "grid_id": 25,
+    "capacity": 1000
+  },
+  "results": {
+    "api_tests": "tests/results/api_test_results.json",
+    "e2e_tests": "tests/results/e2e_test_results.json",
+    "screenshots": "tests/results/screenshots/"
+  }
+}

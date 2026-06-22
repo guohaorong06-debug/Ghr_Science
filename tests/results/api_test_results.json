@@ -1,0 +1,78 @@
+{
+  "test_suite": "API接口测试",
+  "timestamp": "2026-06-22T14:09:11.171962",
+  "base_url": "http://localhost:8080/api",
+  "summary": {
+    "total": 8,
+    "passed": 0,
+    "failed": 8,
+    "pass_rate": 0.0,
+    "average_response_time_ms": 265.31
+  },
+  "details": [
+    {
+      "module": "Auth",
+      "test_name": "用户注册",
+      "success": false,
+      "response_time_ms": 1041.05,
+      "details": null,
+      "timestamp": "2026-06-22T14:09:06.069603"
+    },
+    {
+      "module": "Auth",
+      "test_name": "用户登录",
+      "success": false,
+      "response_time_ms": 1017.21,
+      "details": null,
+      "timestamp": "2026-06-22T14:09:07.587306"
+    },
+    {
+      "module": "Auth",
+      "test_name": "获取用户信息",
+      "success": false,
+      "response_time_ms": 0,
+      "details": "'NoneType' object has no attribute 'get'",
+      "timestamp": "2026-06-22T14:09:08.103997"
+    },
+    {
+      "module": "Site",
+      "test_name": "创建网点",
+      "success": false,
+      "response_time_ms": 14.76,
+      "details": "HTTP 403",
+      "timestamp": "2026-06-22T14:09:08.619118"
+    },
+    {
+      "module": "Site",
+      "test_name": "查询网点列表",
+      "success": false,
+      "response_time_ms": 8.99,
+      "details": "HTTP 403",
+      "timestamp": "2026-06-22T14:09:09.128384"
+    },
+    {
+      "module": "Forecast",
+      "test_name": "预测服务",
+      "success": false,
+      "response_time_ms": 0,
+      "details": "未找到测试网点ID",
+      "timestamp": "2026-06-22T14:09:09.629002"
+    },
+    {
+      "module": "Forecast",
+      "test_name": "查询预警",
+      "success": false,
+      "response_time_ms": 33.2,
+      "details": "HTTP 403",
+      "timestamp": "2026-06-22T14:09:10.162783"
+    },
+    {
+      "module": "Model",
+      "test_name": "查询模型列表",
+      "success": false,
+      "response_time_ms": 7.31,
+      "details": "HTTP 403",
+      "timestamp": "2026-06-22T14:09:10.671463"
+    }
+  ]
+}
