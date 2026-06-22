@@ -15,6 +15,8 @@ services:
       - mysql-data:/var/lib/mysql
       - ../backend/src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - logistics-net
 
   redis:
     image: redis:7.2-alpine
@@ -25,7 +27,51 @@ services:
     volumes:
       - redis-data:/data
     command: redis-server --appendonly yes
+    networks:
+      - logistics-net
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    container_name: logistics-backend
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/logistics?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: logistics2026
+      SPRING_DATA_REDIS_HOST: redis
+      JWT_SECRET: logistics-system-jwt-secret-key-production-2026-minimum-256-bits-required
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - model-data:/app/models
+      - log-data:/app/logs
+    networks:
+      - logistics-net
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    container_name: logistics-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - logistics-net
 
 volumes:
   mysql-data:
   redis-data:
+  model-data:
+  log-data:
+
+networks:
+  logistics-net:
+    driver: bridge
