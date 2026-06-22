@@ -9,7 +9,7 @@ fprintf('论文数据分析 - 模型对比\n');
 fprintf('===========================================\n\n');
 
 % 读取CSV结果
-results_file = '../research/outputs/tables/model_comparison.csv';
+results_file = '../outputs/tables/model_comparison.csv';
 
 if exist(results_file, 'file')
     % 读取数据
@@ -53,7 +53,7 @@ if exist(results_file, 'file')
     grid on;
 
     % 保存图表
-    output_file = '../research/outputs/figures/matlab_model_comparison.png';
+    output_file = '../outputs/figures/matlab_model_comparison.png';
     saveas(gcf, output_file);
     fprintf('[SUCCESS] 图表已保存: %s\n', output_file);
 
