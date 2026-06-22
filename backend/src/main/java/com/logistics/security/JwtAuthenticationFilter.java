@@ -29,6 +29,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        // 跳过公开路径，不进行JWT验证
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/auth/") ||
+            path.startsWith("/api/forecast/") ||
+            path.startsWith("/swagger-ui") ||
+            path.startsWith("/v3/api-docs")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String token = extractToken(request);
 
