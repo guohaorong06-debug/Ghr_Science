@@ -1,12 +1,26 @@
-FROM eclipse-temurin:17-jdk-alpine AS backend-build
+# 多阶段构建 - 优化版本
+# 阶段1: 使用Maven容器构建
+FROM maven:3.9-eclipse-temurin-17-alpine AS builder
+
 WORKDIR /app
+
+# 复制pom.xml和源代码
 COPY backend/pom.xml ./
 COPY backend/src ./src
-RUN apk add --no-cache maven && mvn clean package -DskipTests
 
+# 构建应用（跳过测试）
+RUN mvn clean package -DskipTests
+
+# 阶段2: 运行时环境
 FROM eclipse-temurin:17-jre-alpine
+
 WORKDIR /app
-COPY --from=backend-build /app/target/*.jar app.jar
+
+# 从构建阶段复制jar包
+COPY --from=builder /app/target/*.jar app.jar
+
+# 暴露端口
 EXPOSE 8080
-ENV JAVA_OPTS="-Xms512m -Xmx1024m"
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+
+# 启动应用
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=dev"]
