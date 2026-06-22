@@ -160,7 +160,7 @@ def main():
     with open(output_dir / "result.json", "w") as f:
         json.dump(result, f, indent=2)
 
-    print(f"✅ Transformer训练完成 - MAE: {test_mae:.4f}, RMSE: {test_rmse:.4f}")
+    print(f"[SUCCESS] Transformer训练完成 - MAE: {test_mae:.4f}, RMSE: {test_rmse:.4f}")
 
 if __name__ == "__main__":
     main()

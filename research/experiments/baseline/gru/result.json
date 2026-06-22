@@ -1,13 +1,14 @@
 {
   "model": "GRU",
-  "timestamp": "2026-06-22T18:03:28.556522",
+  "timestamp": "2026-06-22T19:01:57.492982",
   "metrics": {
-    "MAE": 75.88,
-    "RMSE": 118.04,
-    "CRPS": 62.24,
-    "PICP_90": 0.881,
-    "MPIW_90": 120.09
+    "MAE": 0.10400330275297165,
+    "RMSE": 0.2828851342201233,
+    "CRPS": 0.07280231192708014
   },
-  "training_time_seconds": 308.0,
-  "parameters_count": 4249240
+  "config": {
+    "hidden_dim": 128,
+    "num_layers": 2,
+    "epochs": 50
+  }
 }

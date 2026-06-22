@@ -1,13 +1,16 @@
 {
   "model": "LSTM",
-  "timestamp": "2026-06-22T18:03:26.547483",
+  "timestamp": "2026-06-22T19:01:42.036264",
   "metrics": {
-    "MAE": 41.7,
-    "RMSE": 76.02,
-    "CRPS": 63.55,
-    "PICP_90": 0.853,
-    "MPIW_90": 119.16
+    "MAE": 0.10332981497049332,
+    "RMSE": 0.29754725098609924,
+    "CRPS": 0.07233087047934532
   },
-  "training_time_seconds": 301.97,
-  "parameters_count": 3882591
+  "config": {
+    "input_dim": 60,
+    "hidden_dim": 128,
+    "num_layers": 2,
+    "epochs": 50,
+    "batch_size": 32
+  }
 }

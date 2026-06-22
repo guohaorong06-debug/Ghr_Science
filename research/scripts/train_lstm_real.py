@@ -246,8 +246,8 @@ def main():
     with open(output_dir / "result.json", "w") as f:
         json.dump(result, f, indent=2)
 
-    print(f"\n✅ 训练完成！结果已保存到: {output_dir / 'result.json'}")
-    print(f"✅ 模型已保存到: ../models/lstm_best.pt")
+    print(f"\n[SUCCESS] 训练完成！结果已保存到: {output_dir / 'result.json'}")
+    print(f"[SUCCESS] 模型已保存到: ../models/lstm_best.pt")
 
 
 if __name__ == "__main__":
