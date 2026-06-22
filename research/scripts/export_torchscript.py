@@ -63,7 +63,7 @@ def export_lstm():
 
         # 验证
         output = traced_model(example_input)
-        print(f"   ✅ LSTM导出成功")
+        print(f"   [SUCCESS] LSTM导出成功")
         print(f"   文件: {output_path}")
         print(f"   大小: {output_path.stat().st_size / 1024:.2f} KB")
         print(f"   输入: [batch=1, seq=14, features=60]")
@@ -71,7 +71,7 @@ def export_lstm():
 
         return True
     except Exception as e:
-        print(f"   ❌ LSTM导出失败: {e}")
+        print(f"   [ERROR] LSTM导出失败: {e}")
         return False
 
 
@@ -117,14 +117,14 @@ def export_gru():
         traced_model.save(str(output_path))
 
         output = traced_model(example_input)
-        print(f"   ✅ GRU导出成功")
+        print(f"   [SUCCESS] GRU导出成功")
         print(f"   文件: {output_path}")
         print(f"   大小: {output_path.stat().st_size / 1024:.2f} KB")
         print(f"   输出: {output.shape}")
 
         return True
     except Exception as e:
-        print(f"   ❌ GRU导出失败: {e}")
+        print(f"   [ERROR] GRU导出失败: {e}")
         return False
 
 
@@ -180,14 +180,14 @@ def export_transformer():
         traced_model.save(str(output_path))
 
         output = traced_model(example_input)
-        print(f"   ✅ Transformer导出成功")
+        print(f"   [SUCCESS] Transformer导出成功")
         print(f"   文件: {output_path}")
         print(f"   大小: {output_path.stat().st_size / 1024:.2f} KB")
         print(f"   输出: {output.shape}")
 
         return True
     except Exception as e:
-        print(f"   ❌ Transformer导出失败: {e}")
+        print(f"   [ERROR] Transformer导出失败: {e}")
         return False
 
 
@@ -225,7 +225,7 @@ def export_proposed():
         traced_model.save(str(output_path))
 
         output = traced_model(example_input)
-        print(f"   ✅ Proposed简化版导出成功")
+        print(f"   [SUCCESS] Proposed简化版导出成功")
         print(f"   文件: {output_path}")
         print(f"   大小: {output_path.stat().st_size / 1024:.2f} KB")
         print(f"   输出: {output.shape}")
@@ -233,7 +233,7 @@ def export_proposed():
 
         return True
     except Exception as e:
-        print(f"   ❌ Proposed导出失败: {e}")
+        print(f"   [ERROR] Proposed导出失败: {e}")
         return False
 
 
@@ -314,7 +314,7 @@ public class Main {
         f.write(java_code)
 
     print(f"\n5. 生成Java调用示例")
-    print(f"   ✅ 文件: {output_path}")
+    print(f"   [SUCCESS] 文件: {output_path}")
 
 
 def main():
@@ -344,7 +344,7 @@ def main():
     print(f"\n成功: {success_count}/{len(results)}")
 
     for model_name, success in results:
-        status = "✅" if success else "❌"
+        status = "[OK]" if success else "[FAIL]"
         print(f"  {status} {model_name}")
 
     print(f"\n输出目录: ../models/deployed/")
