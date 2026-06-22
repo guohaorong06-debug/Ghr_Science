@@ -39,6 +39,13 @@ public class LogisticsSiteService {
     }
 
     /**
+     * 根据ID查询
+     */
+    public LogisticsSite getById(Long id) {
+        return siteMapper.selectById(id);
+    }
+
+    /**
      * 新增
      */
     public void add(LogisticsSite site) {

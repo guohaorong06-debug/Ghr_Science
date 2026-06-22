@@ -33,26 +33,27 @@ public class DemandRecordService {
      */
     public List<DemandRecord> previewCsv(MultipartFile file) throws Exception {
         CsvReader reader = CsvUtil.getReader();
-        List<String[]> rows = reader.read(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+        cn.hutool.core.text.csv.CsvData csvData = reader.read(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
 
         List<DemandRecord> preview = new ArrayList<>();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // 跳过表头，取前100行
-        for (int i = 1; i < Math.min(rows.size(), 101); i++) {
-            String[] row = rows.get(i);
-            if (row.length < 3) continue;
+        int rowCount = csvData.getRowCount();
+        for (int i = 1; i < Math.min(rowCount, 101); i++) {
+            cn.hutool.core.text.csv.CsvRow csvRow = csvData.getRow(i);
+            if (csvRow.size() < 3) continue;
 
             DemandRecord record = new DemandRecord();
-            record.setSiteId(Long.parseLong(row[0]));
-            record.setRecordDate(LocalDate.parse(row[1], fmt));
-            record.setVolume(Integer.parseInt(row[2]));
+            record.setSiteId(Long.parseLong(csvRow.get(0)));
+            record.setRecordDate(LocalDate.parse(csvRow.get(1), fmt));
+            record.setVolume(Integer.parseInt(csvRow.get(2)));
 
-            if (row.length > 3) record.setIsHoliday("1".equals(row[3]) || "true".equalsIgnoreCase(row[3]));
-            if (row.length > 4) record.setWeather(row[4]);
-            if (row.length > 5 && !row[5].isEmpty()) record.setTemperature(new BigDecimal(row[5]));
-            if (row.length > 6 && !row[6].isEmpty()) record.setPrecipitation(new BigDecimal(row[6]));
-            if (row.length > 7 && !row[7].isEmpty()) record.setWindSpeed(new BigDecimal(row[7]));
+            if (csvRow.size() > 3) record.setIsHoliday("1".equals(csvRow.get(3)) || "true".equalsIgnoreCase(csvRow.get(3)));
+            if (csvRow.size() > 4) record.setWeather(csvRow.get(4));
+            if (csvRow.size() > 5 && !csvRow.get(5).isEmpty()) record.setTemperature(new BigDecimal(csvRow.get(5)));
+            if (csvRow.size() > 6 && !csvRow.get(6).isEmpty()) record.setPrecipitation(new BigDecimal(csvRow.get(6)));
+            if (csvRow.size() > 7 && !csvRow.get(7).isEmpty()) record.setWindSpeed(new BigDecimal(csvRow.get(7)));
 
             preview.add(record);
         }
