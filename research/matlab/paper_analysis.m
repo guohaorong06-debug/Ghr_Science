@@ -20,7 +20,7 @@ if exist(results_file, 'file')
     disp(data);
 
     %% 2. 提取指标
-    models = data.Properties.RowNames;
+    model_names = data.Var1;  % 第一列是模型名称
     mae = data.MAE;
     rmse = data.RMSE;
     crps = data.CRPS;
@@ -31,7 +31,7 @@ if exist(results_file, 'file')
     % 子图1: MAE对比
     subplot(1, 3, 1);
     bar(mae);
-    set(gca, 'XTickLabel', models, 'XTickLabelRotation', 45);
+    set(gca, 'XTickLabel', model_names, 'XTickLabelRotation', 45);
     ylabel('MAE', 'FontSize', 12, 'FontWeight', 'bold');
     title('(a) Mean Absolute Error', 'FontSize', 12, 'FontWeight', 'bold');
     grid on;
@@ -39,7 +39,7 @@ if exist(results_file, 'file')
     % 子图2: RMSE对比
     subplot(1, 3, 2);
     bar(rmse);
-    set(gca, 'XTickLabel', models, 'XTickLabelRotation', 45);
+    set(gca, 'XTickLabel', model_names, 'XTickLabelRotation', 45);
     ylabel('RMSE', 'FontSize', 12, 'FontWeight', 'bold');
     title('(b) Root Mean Square Error', 'FontSize', 12, 'FontWeight', 'bold');
     grid on;
@@ -47,7 +47,7 @@ if exist(results_file, 'file')
     % 子图3: CRPS对比
     subplot(1, 3, 3);
     bar(crps);
-    set(gca, 'XTickLabel', models, 'XTickLabelRotation', 45);
+    set(gca, 'XTickLabel', model_names, 'XTickLabelRotation', 45);
     ylabel('CRPS', 'FontSize', 12, 'FontWeight', 'bold');
     title('(c) CRPS', 'FontSize', 12, 'FontWeight', 'bold');
     grid on;
@@ -66,9 +66,12 @@ if exist(results_file, 'file')
     [min_rmse, idx_rmse] = min(rmse);
     [min_crps, idx_crps] = min(crps);
 
-    fprintf('最佳MAE: %s (%.4f)\n', models{idx_mae}, min_mae);
-    fprintf('最佳RMSE: %s (%.4f)\n', models{idx_rmse}, min_rmse);
-    fprintf('最佳CRPS: %s (%.4f)\n', models{idx_crps}, min_crps);
+    % 获取模型名称
+    model_names = data.Var1;
+
+    fprintf('最佳MAE: %s (%.4f)\n', model_names{idx_mae}, min_mae);
+    fprintf('最佳RMSE: %s (%.4f)\n', model_names{idx_rmse}, min_rmse);
+    fprintf('最佳CRPS: %s (%.4f)\n', model_names{idx_crps}, min_crps);
 
     %% 5. 计算改进百分比
     fprintf('\n改进分析 (相比Proposed):\n');
@@ -80,7 +83,7 @@ if exist(results_file, 'file')
 
     for i = 1:length(mae)-1
         improvement = ((mae(i) - proposed_mae) / mae(i)) * 100;
-        fprintf('%s: %.2f%%\n', models{i}, improvement);
+        fprintf('%s: %.2f%%\n', model_names{i}, improvement);
     end
 
 else

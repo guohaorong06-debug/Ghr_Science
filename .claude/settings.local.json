@@ -29,7 +29,10 @@
       "mcp__zotero__zotero_get_search_database_status",
       "mcp__matlab__run_matlab_file",
       "mcp__zotero__zotero_add_by_doi",
-      "Bash(git commit -m 'fix: correct MATLAB script path and attempt Zotero operations *)"
+      "Bash(git commit -m 'fix: correct MATLAB script path and attempt Zotero operations *)",
+      "mcp__zotero__zotero_search_items",
+      "mcp__zotero__zotero_add_by_bibtex",
+      "Bash(git commit -m 'feat: complete MATLAB analysis and Zotero integration *)"
     ]
   }
 }
