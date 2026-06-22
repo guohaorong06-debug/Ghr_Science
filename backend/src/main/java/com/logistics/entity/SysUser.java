@@ -26,6 +26,8 @@ public class SysUser {
 
     private String email;
 
+    private Integer status;  // 用户状态：0-禁用，1-启用
+
     private Boolean enabled;
 
     @TableField(fill = FieldFill.INSERT)
