@@ -174,12 +174,15 @@ def export_transformer():
         model.eval()
 
         example_input = torch.randn(1, 14, 60)
-        traced_model = torch.jit.trace(model, example_input)
+
+        # Transformer包含Dropout，使用script而不是trace
+        print("   [INFO] 使用torch.jit.script模式（Transformer包含Dropout）")
+        scripted_model = torch.jit.script(model)
 
         output_path = Path("../models/deployed/transformer_torchscript.pt")
-        traced_model.save(str(output_path))
+        scripted_model.save(str(output_path))
 
-        output = traced_model(example_input)
+        output = scripted_model(example_input)
         print(f"   [SUCCESS] Transformer导出成功")
         print(f"   文件: {output_path}")
         print(f"   大小: {output_path.stat().st_size / 1024:.2f} KB")
