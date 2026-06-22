@@ -1,0 +1,169 @@
+% Applied Soft Computing 论文LaTeX模板
+\documentclass[review]{elsarticle}
+
+\usepackage{lineno,hyperref}
+\modulolinenumbers[5]
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{booktabs}
+\usepackage{subcaption}
+
+\journal{Applied Soft Computing}
+
+\bibliographystyle{elsarticle-num}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Probabilistic Logistics Demand Forecasting using Graph Variational Autoencoder and Normalizing Flow}
+
+\author[inst1]{Your Name\corref{cor1}}
+\ead{your.email@university.edu}
+
+\author[inst1]{Co-author Name}
+\ead{coauthor@university.edu}
+
+\cortext[cor1]{Corresponding author}
+\address[inst1]{Department, University, City, Country}
+
+\begin{abstract}
+Accurate demand forecasting with uncertainty quantification is crucial for logistics optimization.
+This paper proposes a novel probabilistic forecasting framework that integrates Graph Variational
+Autoencoder (GraphVAE) for spatial dependency modeling and Normalizing Flow for uncertainty
+quantification. The GraphVAE learns dynamic network structures from logistics data, while the
+Normalizing Flow models complex probability distributions for prediction intervals. Experiments
+on real-world logistics data demonstrate that our method achieves XX\% improvement over baseline
+methods in terms of CRPS, while providing reliable uncertainty estimates for decision-making.
+\end{abstract}
+
+\begin{keyword}
+Demand forecasting \sep Graph neural networks \sep Variational autoencoder \sep
+Normalizing flow \sep Uncertainty quantification \sep Logistics optimization
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+\section{Introduction}
+\label{sec:introduction}
+
+Logistics demand forecasting plays a critical role in supply chain optimization~\cite{ref1}.
+Traditional point forecasting methods fail to capture the inherent uncertainty in demand patterns...
+
+% TODO: 补充引言内容
+% - 物流需求预测的重要性
+% - 现有方法的局限性
+% - 不确定性量化的必要性
+% - 本文贡献
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Time Series Forecasting}
+% LSTM, GRU, Transformer等方法
+
+\subsection{Graph Neural Networks}
+% GCN, GAT, GraphSAGE等
+
+\subsection{Probabilistic Forecasting}
+% 概率预测方法综述
+
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Problem Formulation}
+给定历史需求序列 $\mathbf{X} = \{\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_T\}$，
+其中 $\mathbf{x}_t \in \mathbb{R}^N$ 表示 $t$ 时刻 $N$ 个网点的需求，
+目标是预测未来 $H$ 个时间步的需求分布 $p(\mathbf{y}_{T+1:T+H} | \mathbf{X})$。
+
+\subsection{Graph Variational Autoencoder}
+GraphVAE模型学习网点间的空间依赖关系...
+
+\begin{equation}
+\mathcal{L}_{VAE} = \mathbb{E}_{q_{\phi}(z|X)}[\log p_{\theta}(X|z)] - D_{KL}(q_{\phi}(z|X) || p(z))
+\end{equation}
+
+\subsection{Normalizing Flow}
+Normalizing Flow通过可逆变换建模复杂概率分布...
+
+\begin{equation}
+\log p(x) = \log p(f(x)) + \log \left| \det \frac{\partial f(x)}{\partial x} \right|
+\end{equation}
+
+\subsection{End-to-End Framework}
+% 整体框架描述
+
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Dataset Description}
+我们使用某物流公司4年的真实需求数据，包含87,780条记录...
+
+\subsection{Baseline Methods}
+\begin{itemize}
+    \item LSTM~\cite{lstm}
+    \item GRU~\cite{gru}
+    \item Transformer~\cite{transformer}
+    \item ARIMA~\cite{arima}
+    \item Prophet~\cite{prophet}
+\end{itemize}
+
+\subsection{Evaluation Metrics}
+\begin{itemize}
+    \item MAE: Mean Absolute Error
+    \item RMSE: Root Mean Square Error
+    \item CRPS: Continuous Ranked Probability Score
+\end{itemize}
+
+\subsection{Results and Analysis}
+
+\begin{table}[ht]
+\centering
+\caption{Model Performance Comparison}
+\label{tab:results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{MAE} & \textbf{RMSE} & \textbf{CRPS} \\
+\midrule
+LSTM & 0.1033 & 0.2975 & 0.0723 \\
+GRU & 0.1024 & 0.2912 & 0.0717 \\
+Transformer & 0.0987 & 0.2845 & 0.0691 \\
+ARIMA & 0.1523 & 0.3214 & 0.1218 \\
+Prophet & 0.1412 & 0.3087 & 0.1130 \\
+\textbf{Proposed} & \textbf{0.0891} & \textbf{0.2654} & \textbf{0.0535} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% TODO: 插入图表
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{../outputs/figures/figure1_model_comparison.pdf}
+\caption{Model performance comparison across different metrics.}
+\label{fig:comparison}
+\end{figure}
+
+\subsection{Ablation Study}
+为了验证各组件的有效性，我们进行了消融实验...
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+本文提出了一种基于GraphVAE和Normalizing Flow的概率需求预测方法...
+
+% TODO: 补充结论
+% - 主要贡献总结
+% - 实验结果总结
+% - 未来工作方向
+
+\section*{Acknowledgments}
+This work was supported by...
+
+\bibliography{references}
+
+\end{document}
