@@ -50,14 +50,14 @@ public class ModelController {
 
     @PutMapping("/{id}/activate")
     @Operation(summary = "激活模型")
-    public Result<Void> activate(@PathVariable Long id) {
+    public Result<String> activate(@PathVariable Long id) {
         modelService.activateModel(id);
         return Result.ok("模型已激活");
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除模型")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id) {
         modelService.deleteModel(id);
         return Result.ok("模型已删除");
     }

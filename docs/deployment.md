@@ -23,7 +23,7 @@ docker-compose up -d mysql redis
 ```bash
 cd backend
 # 设置环境变量
-export JWT_SECRET="your-secret-key-min-256-bits"
+export JWT_SECRET="logistics-system-secret-key-2026-change-this-in-production-min-256-bits"
 export MYSQL_PASSWORD="logistics2026"
 
 # IDEA中运行或命令行
