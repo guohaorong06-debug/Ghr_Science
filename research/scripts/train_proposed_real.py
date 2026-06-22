@@ -14,6 +14,7 @@ from pathlib import Path
 import json
 from datetime import datetime
 from sklearn.preprocessing import StandardScaler
+from tqdm import tqdm
 
 # 添加模型路径
 sys.path.append(str(Path(__file__).parent.parent))
@@ -68,7 +69,9 @@ def train_epoch(model, dataloader, optimizer, edge_index, capacity_threshold):
     total_loss = 0
     loss_components = {'total': 0, 'crps': 0, 'quantile': 0, 'vae': 0, 'decision': 0}
 
-    for x, y in dataloader:
+    # 添加进度条
+    pbar = tqdm(dataloader, desc='Training', leave=False, ncols=100)
+    for x, y in pbar:
         x, y = x.to(DEVICE), y.to(DEVICE)
         batch_size = x.size(0)
 
@@ -104,6 +107,9 @@ def train_epoch(model, dataloader, optimizer, edge_index, capacity_threshold):
         for key in loss_components:
             loss_components[key] += loss_dict[key].item()
 
+        # 更新进度条
+        pbar.set_postfix({'loss': f'{loss.item():.4f}'})
+
     # 平均损失
     n = len(dataloader)
     return {key: val / n for key, val in loss_components.items()}
@@ -115,8 +121,10 @@ def evaluate(model, dataloader, edge_index, capacity_threshold):
     all_preds = []
     all_targets = []
 
+    # 添加进度条
+    pbar = tqdm(dataloader, desc='Evaluating', leave=False, ncols=100)
     with torch.no_grad():
-        for x, y in dataloader:
+        for x, y in pbar:
             x, y = x.to(DEVICE), y.to(DEVICE)
             batch_size = x.size(0)
 
@@ -203,21 +211,25 @@ def main():
     print("\n开始训练...")
     best_val_mae = float('inf')
 
-    for epoch in range(EPOCHS):
+    # 使用tqdm显示epoch进度
+    epoch_pbar = tqdm(range(EPOCHS), desc='Overall Progress', ncols=120)
+    for epoch in epoch_pbar:
         train_losses = train_epoch(model, train_loader, optimizer, edge_index, capacity_threshold)
         val_mae, val_rmse = evaluate(model, val_loader, edge_index, capacity_threshold)
 
-        # 每个epoch都显示进度
-        print(f"Epoch {epoch+1}/{EPOCHS} - "
-              f"Train Loss: {train_losses['total']:.4f} - "
-              f"Val MAE: {val_mae:.4f} - "
-              f"Val RMSE: {val_rmse:.4f}")
+        # 更新epoch进度条
+        epoch_pbar.set_postfix({
+            'Train Loss': f'{train_losses["total"]:.4f}',
+            'Val MAE': f'{val_mae:.4f}',
+            'Val RMSE': f'{val_rmse:.4f}',
+            'Best MAE': f'{best_val_mae:.4f}'
+        })
 
         # 保存最佳模型
         if val_mae < best_val_mae:
             best_val_mae = val_mae
             torch.save(model.state_dict(), '../models/proposed_best.pt')
-            print(f"  → 保存最佳模型")
+            tqdm.write(f"Epoch {epoch+1}/{EPOCHS} - 保存最佳模型 (MAE: {val_mae:.4f})")
 
     # 5. 测试集评估
     print("\n测试集评估...")
