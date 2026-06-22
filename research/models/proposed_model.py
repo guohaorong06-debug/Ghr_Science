@@ -121,8 +121,8 @@ class ProposedModel(nn.Module):
         quantile_preds = quantile_preds.view(batch_size, self.config['forecast_horizon'], 3)
 
         # 5. 采样预测分布（Normalizing Flow）
-        # 减少采样数量以加速训练
-        num_samples = 50 if self.training else self.config.get('num_samples', 100)
+        # 训练时减少采样以加速（5次），评估时使用完整采样（100次）
+        num_samples = 5 if self.training else self.config.get('num_samples', 100)
         samples = self.normalizing_flow.sample(context, num_samples=num_samples)
         # samples: [batch, num_samples, horizon]
 
