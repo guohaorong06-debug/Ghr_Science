@@ -3,6 +3,8 @@
 支持新旧两种格式：
 - 旧格式：含 pickup_longitude / pickup_latitude
 - 新格式：含 PULocationID（通过内置映射转换为经纬度）
+
+修正：增加了日期范围过滤（2018-2023年），避免异常日期
 """
 
 import pandas as pd
@@ -27,9 +29,11 @@ MANHATTAN_BOUNDS = {
 GRID_ROWS = 10
 GRID_COLS = 6
 
+# 有效年份范围（过滤异常日期）
+MIN_YEAR = 2018
+MAX_YEAR = 2023
+
 # ---------- 内置 LocationID -> (lon, lat) 映射（曼哈顿区域中心） ----------
-# 数据来源：NYC TLC taxi_zone 区域定义 + 几何中心估算
-# 覆盖曼哈顿大部分 Zone，若缺失则自动丢弃（不在曼哈顿内）
 LOCATION_CENTROIDS = {
     # 曼哈顿上城 (Upper Manhattan)
     238: (-73.938, 40.865),  # Washington Heights
@@ -54,12 +58,11 @@ LOCATION_CENTROIDS = {
     255: (-73.995, 40.655),  # Chinatown
     256: (-74.000, 40.645),  # Financial District
     257: (-74.005, 40.635),  # Battery Park
-    # 额外补充（纽约其他区域但偶尔出现在曼哈顿内）
-    1: (-73.995, 40.750),   # 通用曼哈顿中心（fallback）
+    # 额外补充（防止少量未覆盖的 ID）
+    1: (-73.995, 40.750),
     2: (-73.980, 40.720),
     3: (-73.970, 40.700),
     4: (-73.960, 40.680),
-    # 若遇到未列出的 LocationID，脚本将自动过滤掉（不在曼哈顿内）
 }
 
 def get_lon_lat_from_location(location_id):
@@ -119,8 +122,20 @@ def process_file(filepath):
             return None
 
         # ---- 统一处理 ----
-        # 转换日期
-        df['datetime'] = pd.to_datetime(df['datetime'])
+        # 转换日期，错误时转为 NaT
+        df['datetime'] = pd.to_datetime(df['datetime'], errors='coerce')
+
+        # 丢弃日期无效的行
+        df = df.dropna(subset=['datetime'])
+
+        # ---- 关键修正：过滤异常年份 ----
+        df = df[(df['datetime'].dt.year >= MIN_YEAR) & (df['datetime'].dt.year <= MAX_YEAR)]
+
+        if len(df) == 0:
+            print(f"⚠️ {filepath.name}: 日期过滤后无有效记录")
+            return None
+
+        # 提取日期（仅日期部分，不含时间）
         df['date'] = df['datetime'].dt.date
 
         # 分配网格
@@ -157,14 +172,14 @@ def main():
         print("❌ 没有成功处理任何文件，请检查数据格式或映射表。")
         return
 
-    # ---------- 合并数据（修复：统一日期类型并去重） ----------
+    # ---------- 合并数据（统一日期类型并去重） ----------
     print("\n合并数据...")
     final_df = pd.concat(all_demands, ignore_index=True)
 
-    # 统一日期列为 Timestamp（去除时区，便于与 date_range 对齐）
+    # 确保 date 列为 Timestamp（无时区）
     final_df['date'] = pd.to_datetime(final_df['date'])
 
-    # 若仍有重复（理论上不应有，但以防万一），按 (date, grid_id) 聚合求和
+    # 若仍有重复（以防万一），聚合求和
     final_df = final_df.groupby(['date', 'grid_id'], as_index=False)['volume'].sum()
 
     # 填充缺失日期（某些网格某天可能无数据）
