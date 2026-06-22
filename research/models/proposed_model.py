@@ -35,7 +35,7 @@ class ProposedModel(nn.Module):
         # 1. 图变分自编码器（空间建模）
         self.graph_vae = GraphVAE(
             num_nodes=config['num_nodes'],
-            input_dim=config['history_window'],
+            input_dim=1,  # 使用单一特征（聚合后的历史需求）
             hidden_dim=config['hidden_dim'],
             latent_dim=config['latent_dim']
         )
