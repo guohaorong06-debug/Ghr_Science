@@ -207,19 +207,17 @@ def main():
         train_losses = train_epoch(model, train_loader, optimizer, edge_index, capacity_threshold)
         val_mae, val_rmse = evaluate(model, val_loader, edge_index, capacity_threshold)
 
-        if (epoch + 1) % 10 == 0:
-            print(f"Epoch {epoch+1}/{EPOCHS}")
-            print(f"  Train - Total: {train_losses['total']:.4f}, "
-                  f"CRPS: {train_losses['crps']:.4f}, "
-                  f"Decision: {train_losses['decision']:.4f}")
-            print(f"  Val - MAE: {val_mae:.4f}, RMSE: {val_rmse:.4f}")
+        # 每个epoch都显示进度
+        print(f"Epoch {epoch+1}/{EPOCHS} - "
+              f"Train Loss: {train_losses['total']:.4f} - "
+              f"Val MAE: {val_mae:.4f} - "
+              f"Val RMSE: {val_rmse:.4f}")
 
         # 保存最佳模型
         if val_mae < best_val_mae:
             best_val_mae = val_mae
             torch.save(model.state_dict(), '../models/proposed_best.pt')
-            if (epoch + 1) % 10 == 0:
-                print(f"  → 保存最佳模型")
+            print(f"  → 保存最佳模型")
 
     # 5. 测试集评估
     print("\n测试集评估...")
