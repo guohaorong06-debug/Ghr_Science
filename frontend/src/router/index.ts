@@ -37,6 +37,11 @@ const router = createRouter({
           name: 'DataImport',
           component: () => import('@/views/DataImport.vue'),
         },
+        {
+          path: 'forecast',
+          name: 'Forecast',
+          component: () => import('@/views/Forecast.vue'),
+        },
       ],
     },
   ],
