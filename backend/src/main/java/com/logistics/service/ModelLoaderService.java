@@ -97,7 +97,21 @@ public class ModelLoaderService {
             NDArray output = list.singletonOrThrow();
 
             // output: [1, 7, 60] -> [7, 60]
-            return output.squeeze(0).toFloatArray();
+            output = output.squeeze(0);
+
+            // 转换为二维数组
+            long[] shape = output.getShape().getShape();
+            int rows = (int) shape[0];
+            int cols = (int) shape[1];
+
+            float[][] result = new float[rows][cols];
+            float[] flatArray = output.toFloatArray();
+
+            for (int i = 0; i < rows; i++) {
+                System.arraycopy(flatArray, i * cols, result[i], 0, cols);
+            }
+
+            return result;
         }
 
         @Override
