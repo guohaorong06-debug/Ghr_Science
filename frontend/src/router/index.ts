@@ -42,6 +42,11 @@ const router = createRouter({
           name: 'Forecast',
           component: () => import('@/views/Forecast.vue'),
         },
+        {
+          path: 'model',
+          name: 'ModelManage',
+          component: () => import('@/views/ModelManage.vue'),
+        },
       ],
     },
   ],

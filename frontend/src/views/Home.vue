@@ -24,6 +24,9 @@
           <el-menu-item index="/forecast">
             <span>需求预测</span>
           </el-menu-item>
+          <el-menu-item index="/model">
+            <span>模型管理</span>
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
