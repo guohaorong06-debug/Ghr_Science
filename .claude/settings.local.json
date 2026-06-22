@@ -23,7 +23,8 @@
       "Bash(git commit -m 'feat: complete phase 3 - forecast service & alert system *)",
       "Bash(git commit -m 'feat: complete phase 4 - model version management *)",
       "Bash(git commit -m 'docs: add comprehensive project summary *)",
-      "PowerShell($body = '{\"username\":\"admin\",\"password\":\"admin123\"}'; $response = Invoke-RestMethod -Uri \"http://localhost:8080/api/auth/login\" -Method POST -ContentType \"application/json\" -Body $body; if\\($response.code -eq 200\\){\"✅ 登录成功！\"; \"Token: \" + $response.data.token.Substring\\(0,50\\) + \"...\"; \"用户: \" + $response.data.username}else{\"状态码: \" + $response.code; \"消息: \" + $response.message})"
+      "PowerShell($body = '{\"username\":\"admin\",\"password\":\"admin123\"}'; $response = Invoke-RestMethod -Uri \"http://localhost:8080/api/auth/login\" -Method POST -ContentType \"application/json\" -Body $body; if\\($response.code -eq 200\\){\"✅ 登录成功！\"; \"Token: \" + $response.data.token.Substring\\(0,50\\) + \"...\"; \"用户: \" + $response.data.username}else{\"状态码: \" + $response.code; \"消息: \" + $response.message})",
+      "Bash(git commit -m 'fix: add BCryptPasswordEncoder bean to resolve container startup failure *)"
     ]
   }
 }
