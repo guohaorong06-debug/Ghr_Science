@@ -1,0 +1,32 @@
+{
+  "total_time_minutes": 1.05,
+  "success_count": 3,
+  "total_models": 4,
+  "results": [
+    {
+      "model": "LSTM",
+      "script": "train_lstm_real.py",
+      "success": true,
+      "time_minutes": 0.18
+    },
+    {
+      "model": "GRU",
+      "script": "train_gru_real.py",
+      "success": true,
+      "time_minutes": 0.17
+    },
+    {
+      "model": "Transformer",
+      "script": "train_transformer_real.py",
+      "success": true,
+      "time_minutes": 0.43
+    },
+    {
+      "model": "Proposed (GraphVAE+Flow)",
+      "script": "train_proposed_real.py",
+      "success": false,
+      "time_minutes": 0.12
+    }
+  ],
+  "timestamp": "2026-06-22T19:09:09.142202"
+}

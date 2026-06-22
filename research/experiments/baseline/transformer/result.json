@@ -1,13 +1,15 @@
 {
   "model": "Transformer",
-  "timestamp": "2026-06-22T18:03:30.571183",
+  "timestamp": "2026-06-22T19:08:58.711485",
   "metrics": {
-    "MAE": 64.67,
-    "RMSE": 108.48,
-    "CRPS": 30.68,
-    "PICP_90": 0.9,
-    "MPIW_90": 107.26
+    "MAE": 0.09396149963140488,
+    "RMSE": 0.26674240827560425,
+    "CRPS": 0.0657730497419834
   },
-  "training_time_seconds": 205.51,
-  "parameters_count": 1132294
+  "config": {
+    "d_model": 128,
+    "nhead": 4,
+    "num_layers": 2,
+    "epochs": 50
+  }
 }
