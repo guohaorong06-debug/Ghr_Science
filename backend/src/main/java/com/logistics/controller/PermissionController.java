@@ -6,6 +6,7 @@ import com.logistics.utils.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PermissionController {
 
     @GetMapping("/list")
     @Operation(summary = "权限列表")
+    @PreAuthorize("hasRole('ADMIN')")
     public Result<List<SysPermission>> list() {
         List<SysPermission> permissions = permissionService.listAllPermissions();
         return Result.ok(permissions);
@@ -30,6 +32,7 @@ public class PermissionController {
 
     @GetMapping("/tree")
     @Operation(summary = "权限树")
+    @PreAuthorize("hasRole('ADMIN')")
     public Result<List<SysPermission>> tree() {
         List<SysPermission> tree = permissionService.getPermissionTree();
         return Result.ok(tree);
@@ -37,6 +40,7 @@ public class PermissionController {
 
     @PostMapping
     @Operation(summary = "创建权限")
+    @PreAuthorize("hasRole('ADMIN')")
     public Result<Long> create(@RequestBody SysPermission permission) {
         Long id = permissionService.createPermission(permission);
         return Result.ok(id);
@@ -44,6 +48,7 @@ public class PermissionController {
 
     @PutMapping
     @Operation(summary = "更新权限")
+    @PreAuthorize("hasRole('ADMIN')")
     public Result<String> update(@RequestBody SysPermission permission) {
         permissionService.updatePermission(permission);
         return Result.ok("权限更新成功");
@@ -51,6 +56,7 @@ public class PermissionController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除权限")
+    @PreAuthorize("hasRole('ADMIN')")
     public Result<String> delete(@PathVariable Long id) {
         permissionService.deletePermission(id);
         return Result.ok("权限删除成功");
