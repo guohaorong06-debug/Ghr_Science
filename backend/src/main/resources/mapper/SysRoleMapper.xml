@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logistics.mapper.SysRoleMapper">
+
+    <!-- 查询用户的角色列表 -->
+    <select id="selectRolesByUserId" resultType="com.logistics.entity.SysRole">
+        SELECT r.*
+        FROM sys_role r
+        INNER JOIN sys_user_role ur ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND r.deleted = 0
+          AND r.status = 1
+    </select>
+
+    <!-- 查询角色的所有用户数量 -->
+    <select id="countUsersByRoleId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_user_role
+        WHERE role_id = #{roleId}
+    </select>
+
+    <!-- 删除角色的所有权限关联 -->
+    <delete id="deleteRolePermissions">
+        DELETE FROM sys_role_permission
+        WHERE role_id = #{roleId}
+    </delete>
+
+    <!-- 批量插入角色权限关联 -->
+    <insert id="batchInsertPermissions">
+        INSERT INTO sys_role_permission (role_id, permission_id)
+        VALUES
+        <foreach collection="permissionIds" item="permId" separator=",">
+            (#{roleId}, #{permId})
+        </foreach>
+    </insert>
+
+    <!-- 查询使用该角色的用户列表 -->
+    <select id="selectUsersByRoleId" resultType="java.util.Map">
+        SELECT u.id, u.username, u.email, u.real_name, u.enabled
+        FROM sys_user u
+        INNER JOIN sys_user_role ur ON u.id = ur.user_id
+        WHERE ur.role_id = #{roleId}
+          AND u.deleted = 0
+        ORDER BY u.create_time DESC
+    </select>
+
+</mapper>

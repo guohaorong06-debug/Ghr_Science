@@ -47,6 +47,18 @@ const router = createRouter({
           name: 'ModelManage',
           component: () => import('@/views/ModelManage.vue'),
         },
+        {
+          path: 'admin/users',
+          name: 'UserManagement',
+          component: () => import('@/views/admin/UserManagement.vue'),
+          meta: { requiresAuth: true, requiresAdmin: true },
+        },
+        {
+          path: 'admin/roles',
+          name: 'RoleManagement',
+          component: () => import('@/views/admin/RoleManagement.vue'),
+          meta: { requiresAuth: true, requiresAdmin: true },
+        },
       ],
     },
   ],

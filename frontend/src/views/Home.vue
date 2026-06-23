@@ -27,6 +27,17 @@
           <el-menu-item index="/model">
             <span>模型管理</span>
           </el-menu-item>
+          <el-sub-menu index="/admin" v-if="userStore.userInfo?.role === 'ADMIN'">
+            <template #title>
+              <span>权限管理</span>
+            </template>
+            <el-menu-item index="/admin/users">
+              <span>用户管理</span>
+            </el-menu-item>
+            <el-menu-item index="/admin/roles">
+              <span>角色管理</span>
+            </el-menu-item>
+          </el-sub-menu>
         </el-menu>
       </el-aside>
       <el-main>
