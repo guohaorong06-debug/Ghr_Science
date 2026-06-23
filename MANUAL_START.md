@@ -25,8 +25,15 @@ Wait 30 seconds for initialization.
 Open another CMD window and run:
 ```cmd
 cd D:\Ghr_Science\frontend
+
+# First time only: Install dependencies
+npm install
+
+# Start frontend
 npm run dev
 ```
+
+**Note**: First time you must run `npm install` to install dependencies (takes 2-3 minutes).
 
 ## Access
 
