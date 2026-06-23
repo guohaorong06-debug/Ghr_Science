@@ -133,7 +133,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { adminApi } from '@/api/admin'
+import { userAPI, roleAPI } from '@/api/admin'
 
 // 搜索表单
 const searchForm = reactive({
@@ -286,24 +286,11 @@ const handleDelete = (row) => {
     }
   })
 }
-    type: 'warning'
-  }).then(async () => {
-    try {
-      await api.delete(`/api/admin/user/${row.id}`)
-      ElMessage.success('删除成功')
-      loadData()
-    } catch (error) {
-      ElMessage.error('删除失败')
-    }
-  })
-}
 
 // 切换状态
 const handleToggleStatus = async (row) => {
   try {
-    await api.put(`/api/admin/user/${row.id}/status`, {
-      status: row.status === 1 ? 0 : 1
-    })
+    await userAPI.toggleStatus(row.id)
     ElMessage.success('状态更新成功')
     loadData()
   } catch (error) {
@@ -316,12 +303,8 @@ const handleAssignRole = async (row) => {
   currentUserId.value = row.id
   try {
     // 加载所有角色
-    const rolesRes = await api.get('/api/admin/role/list')
+    const rolesRes = await roleAPI.getRoleList()
     roles.value = rolesRes.data
-
-    // 加载用户当前角色
-    const userRolesRes = await api.get(`/api/admin/user/${row.id}/roles`)
-    selectedRoles.value = userRolesRes.data.map(r => r.id)
 
     roleDialogVisible.value = true
   } catch (error) {
