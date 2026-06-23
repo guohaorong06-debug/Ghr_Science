@@ -58,8 +58,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- HikariCP (Spring Boot默认) -->
-
         <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -72,26 +70,6 @@
             <version>0.12.5</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- DJL (Deep Java Library) for TorchScript -->
-        <dependency>
-            <groupId>ai.djl</groupId>
-            <artifactId>api</artifactId>
-            <version>0.24.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ai.djl.pytorch</groupId>
-            <artifactId>pytorch-engine</artifactId>
-            <version>0.24.0</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- PyTorch Native - CPU as base, GPU will be auto-detected if CUDA is available -->
-        <dependency>
-            <groupId>ai.djl.pytorch</groupId>
-            <artifactId>pytorch-native-cpu</artifactId>
-            <version>2.0.1</version>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
@@ -99,7 +77,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- DJL (Deep Java Library) -->
+        <!-- DJL -->
         <dependency>
             <groupId>ai.djl</groupId>
             <artifactId>api</artifactId>
@@ -109,6 +87,13 @@
             <groupId>ai.djl.pytorch</groupId>
             <artifactId>pytorch-engine</artifactId>
             <version>${djl.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl.pytorch</groupId>
+            <artifactId>pytorch-native-cu121</artifactId>
+            <version>2.0.1-0.24.0</version>
+            <classifier>win-x86_64</classifier>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -118,14 +103,14 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Hutool 工具集 -->
+        <!-- Hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
 
-        <!-- Knife4j API文档 -->
+        <!-- Knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -139,7 +124,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 测试 -->
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
