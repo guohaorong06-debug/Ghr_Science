@@ -92,7 +92,10 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const hasPermission = (code: string) => {
-  return userStore.hasPermission(code)
+  // 添加调试日志
+  const result = userStore.hasPermission(code)
+  console.log(`[权限检查] ${code}:`, result, '所有权限:', userStore.permissions)
+  return result
 }
 
 const roleName = computed(() => {

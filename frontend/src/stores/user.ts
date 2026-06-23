@@ -19,9 +19,11 @@ export const useUserStore = defineStore(
       // 从后端返回的用户信息中提取权限和角色
       if (info.permissions) {
         permissions.value = info.permissions
+        console.log('[UserStore] 设置权限:', info.permissions)
       }
       if (info.roles) {
         roles.value = info.roles
+        console.log('[UserStore] 设置角色:', info.roles)
       }
     }
 
