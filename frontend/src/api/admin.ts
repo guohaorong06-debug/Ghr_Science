@@ -11,12 +11,12 @@ export const userAPI = {
 
   // 创建用户
   createUser(data: any) {
-    return request.post('/api/admin/user/create', data)
+    return request.post('/api/admin/user', data)
   },
 
   // 更新用户
   updateUser(id: number, data: any) {
-    return request.put(`/api/admin/user/${id}`, data)
+    return request.put('/api/admin/user', data)
   },
 
   // 删除用户
@@ -46,12 +46,12 @@ export const roleAPI = {
 
   // 创建角色
   createRole(data: any) {
-    return request.post('/api/admin/role/create', data)
+    return request.post('/api/admin/role', data)
   },
 
   // 更新角色
   updateRole(id: number, data: any) {
-    return request.put(`/api/admin/role/${id}`, data)
+    return request.put('/api/admin/role', data)
   },
 
   // 删除角色
