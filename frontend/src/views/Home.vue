@@ -11,16 +11,16 @@
       </div>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" v-if="userStore.token">
         <el-menu :default-active="$route.path" router>
           <!-- 仪表盘 - 所有角色可见 -->
-          <el-menu-item index="/dashboard" v-if="hasPermission('dashboard:view')">
+          <el-menu-item index="/dashboard" v-if="!userStore.permissions || userStore.permissions.length === 0 || hasPermission('dashboard:view')">
             <el-icon><DataLine /></el-icon>
             <span>决策仪表盘</span>
           </el-menu-item>
 
           <!-- 网点管理 - 所有角色可见 -->
-          <el-menu-item index="/site" v-if="hasPermission('site:view')">
+          <el-menu-item index="/site" v-if="!userStore.permissions || userStore.permissions.length === 0 || hasPermission('site:view')">
             <el-icon><Location /></el-icon>
             <span>网点管理</span>
           </el-menu-item>
@@ -32,13 +32,13 @@
           </el-menu-item>
 
           <!-- 需求预测 - 所有角色可见 -->
-          <el-menu-item index="/forecast" v-if="hasPermission('forecast:view')">
+          <el-menu-item index="/forecast" v-if="!userStore.permissions || userStore.permissions.length === 0 || hasPermission('forecast:view')">
             <el-icon><TrendCharts /></el-icon>
             <span>需求预测</span>
           </el-menu-item>
 
           <!-- 模型管理 - 所有角色可见 -->
-          <el-menu-item index="/model" v-if="hasPermission('model:view')">
+          <el-menu-item index="/model" v-if="!userStore.permissions || userStore.permissions.length === 0 || hasPermission('model:view')">
             <el-icon><Setting /></el-icon>
             <span>模型管理</span>
           </el-menu-item>
