@@ -85,10 +85,10 @@
             <version>0.24.0</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- PyTorch Native - Auto-detect (GPU if available, CPU fallback) -->
+        <!-- PyTorch Native - CPU as base, GPU will be auto-detected if CUDA is available -->
         <dependency>
             <groupId>ai.djl.pytorch</groupId>
-            <artifactId>pytorch-native-auto</artifactId>
+            <artifactId>pytorch-native-cpu</artifactId>
             <version>2.0.1</version>
             <scope>runtime</scope>
         </dependency>
