@@ -32,46 +32,52 @@ public class ModelLoaderService {
     private Predictor<float[][], float[][]> gruPredictor;
     private Predictor<float[][], float[][]> transformerPredictor;
 
-    @PostConstruct
-    public void init() {
-        try {
-            log.info("开始加载TorchScript模型...");
+    private volatile boolean initialized = false;
 
-            // 加载LSTM模型
-            lstmModel = Model.newInstance("lstm");
-            lstmModel.load(Paths.get("models/lstm_torchscript.pt"));
-            lstmPredictor = lstmModel.newPredictor(new ForecastTranslator());
-            log.info("✅ LSTM模型加载成功");
+    /**
+     * 懒加载模型 - 首次使用时才加载，避免阻塞应用启动
+     */
+    private void ensureInitialized() {
+        if (initialized) return;
+        synchronized (this) {
+            if (initialized) return;
+            try {
+                log.info("开始加载TorchScript模型...");
+                lstmModel = Model.newInstance("lstm");
+                lstmModel.load(Paths.get("models/lstm_torchscript.pt"));
+                lstmPredictor = lstmModel.newPredictor(new ForecastTranslator());
+                log.info("LSTM模型加载成功");
 
-            // 加载GRU模型
-            gruModel = Model.newInstance("gru");
-            gruModel.load(Paths.get("models/gru_torchscript.pt"));
-            gruPredictor = gruModel.newPredictor(new ForecastTranslator());
-            log.info("✅ GRU模型加载成功");
+                gruModel = Model.newInstance("gru");
+                gruModel.load(Paths.get("models/gru_torchscript.pt"));
+                gruPredictor = gruModel.newPredictor(new ForecastTranslator());
+                log.info("GRU模型加载成功");
 
-            // 加载Transformer模型
-            transformerModel = Model.newInstance("transformer");
-            transformerModel.load(Paths.get("models/transformer_torchscript.pt"));
-            transformerPredictor = transformerModel.newPredictor(new ForecastTranslator());
-            log.info("✅ Transformer模型加载成功");
+                transformerModel = Model.newInstance("transformer");
+                transformerModel.load(Paths.get("models/transformer_torchscript.pt"));
+                transformerPredictor = transformerModel.newPredictor(new ForecastTranslator());
+                log.info("Transformer模型加载成功");
 
-            log.info("所有模型加载完成！");
-
-        } catch (MalformedModelException | IOException e) {
-            log.error("模型加载失败", e);
-            throw new RuntimeException("模型加载失败: " + e.getMessage(), e);
+                log.info("所有模型加载完成！");
+                initialized = true;
+            } catch (Exception e) {
+                log.error("模型加载失败: {}", e.getMessage());
+            }
         }
     }
 
     public Predictor<float[][], float[][]> getLSTMPredictor() {
+        ensureInitialized();
         return lstmPredictor;
     }
 
     public Predictor<float[][], float[][]> getGRUPredictor() {
+        ensureInitialized();
         return gruPredictor;
     }
 
     public Predictor<float[][], float[][]> getTransformerPredictor() {
+        ensureInitialized();
         return transformerPredictor;
     }
 
