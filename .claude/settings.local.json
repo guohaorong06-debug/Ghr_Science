@@ -32,7 +32,8 @@
       "Bash(git commit -m 'fix: correct MATLAB script path and attempt Zotero operations *)",
       "mcp__zotero__zotero_search_items",
       "mcp__zotero__zotero_add_by_bibtex",
-      "Bash(git commit -m 'feat: complete MATLAB analysis and Zotero integration *)"
+      "Bash(git commit -m 'feat: complete MATLAB analysis and Zotero integration *)",
+      "PowerShell(Write-Output \"\"; Write-Output \"[9/9] 测试API访问...\"; Write-Output \"\"; Start-Sleep -Seconds 5; try { $response = Invoke-WebRequest -Uri \"http://localhost:8080/api/forecast/models\" -Method GET -UseBasicParsing -ErrorAction Stop; Write-Output \"✅ API访问成功！\"; Write-Output \"状态码: $\\($response.StatusCode\\)\"; Write-Output \"返回内容: $\\($response.Content\\)\" } catch { Write-Output \"⚠️ API访问失败\"; Write-Output \"状态码: $\\($_.Exception.Response.StatusCode.value__\\)\"; Write-Output \"提示: 后端可能还在启动中，请稍等或查看日志\" })"
     ]
   }
 }
