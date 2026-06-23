@@ -106,7 +106,8 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import api from '@/api'
+import { roleAPI } from '@/api/admin'
+import { permissionApi } from '@/api/permission'
 
 // 表格数据
 const tableData = ref([])

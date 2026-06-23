@@ -133,7 +133,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import api from '@/api'
+import { adminApi } from '@/api/admin'
 
 // 搜索表单
 const searchForm = reactive({
@@ -191,12 +191,10 @@ const rules = {
 const loadData = async () => {
   loading.value = true
   try {
-    const res = await api.get('/api/admin/user/page', {
-      params: {
-        current: pagination.current,
-        size: pagination.size,
-        ...searchForm
-      }
+    const res = await userAPI.getUserList({
+      current: pagination.current,
+      size: pagination.size,
+      ...searchForm
     })
     tableData.value = res.data.records
     pagination.total = res.data.total
@@ -258,9 +256,9 @@ const handleSubmit = async () => {
   submitLoading.value = true
   try {
     if (isEdit.value) {
-      await api.put('/api/admin/user', formData)
+      await userAPI.updateUser(formData.id, formData)
     } else {
-      await api.post('/api/admin/user', formData)
+      await userAPI.createUser(formData)
     }
     ElMessage.success('操作成功')
     dialogVisible.value = false
@@ -277,6 +275,17 @@ const handleDelete = (row) => {
   ElMessageBox.confirm('确定要删除该用户吗？', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    try {
+      await userAPI.deleteUser(row.id)
+      ElMessage.success('删除成功')
+      loadData()
+    } catch (error) {
+      ElMessage.error('删除失败')
+    }
+  })
+}
     type: 'warning'
   }).then(async () => {
     try {
