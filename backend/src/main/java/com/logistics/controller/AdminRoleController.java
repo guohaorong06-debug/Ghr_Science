@@ -59,7 +59,7 @@ public class AdminRoleController {
     @Operation(summary = "获取角色权限列表")
     @PreAuthorize("hasRole('ADMIN')")
     public Result<List<Long>> getRolePermissions(@PathVariable Long id) {
-        List<Long> permissionIds = adminRoleService.getRolePermissions(id);
+        List<Long> permissionIds = adminRoleService.getRolePermissionIds(id);
         return Result.ok(permissionIds);
     }
 

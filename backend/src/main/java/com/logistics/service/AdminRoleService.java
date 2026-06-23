@@ -101,6 +101,26 @@ public class AdminRoleService {
     }
 
     /**
+     * 获取角色的权限ID列表
+     */
+    @Cacheable(value = "role:permission-ids", key = "#roleId")
+    public List<Long> getRolePermissionIds(Long roleId) {
+        return permissionMapper.selectPermissionsByRoleId(roleId)
+                .stream()
+                .map(SysPermission::getId)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 分配角色权限（别名方法）
+     */
+    @Transactional
+    @CacheEvict(value = {"role:permissions", "role:permission-ids", "user:permissions"}, allEntries = true)
+    public void assignPermissions(Long roleId, List<Long> permissionIds) {
+        configurePermissions(roleId, permissionIds);
+    }
+
+    /**
      * 获取角色的用户列表
      */
     public List<Map<String, Object>> getRoleUsers(Long roleId) {
